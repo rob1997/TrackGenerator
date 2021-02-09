@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="C:\Users\Robel\.Rider2019.1\config\scratches" t="IncludeRecursive" />
+    <e p="C:\Users\Robel\.Rider2019.1\system\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\Robel\.Rider2019.1\system\resharper-host\local\Transient\ReSharperHost\v191\SolutionCaches\_TrackGenerator.1756030914.00" t="ExcludeRecursive" />
+    <e p="C:\Users\Robel\Documents\Unity\Projects\TrackGenerator" t="IncludeRecursive">
+      <e p="Assembly-CSharp-Editor.csproj" t="IncludeRecursive" />
+      <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
+      <e p="Assets" t="Include">
+        <e p="Editor" t="Include">
+          <e p="PathEditor.cs" t="Include" />
+        </e>
+        <e p="Scripts" t="Include">
+          <e p="Path.cs" t="Include" />
+          <e p="PathCreator.cs" t="Include" />
+        </e>
+      </e>
+      <e p="obj" t="ExcludeRecursive" />
+      <e p="Packages" t="ExcludeRecursive" />
+      <e p="Temp\bin" t="ExcludeRecursive" />
+      <e p="TrackGenerator.sln" t="IncludeFlat" />
+    </e>
+  </component>
+</project>
