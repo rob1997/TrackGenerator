@@ -96,6 +96,11 @@ public class Path
 
     public void AutoMap()
     {
+        if (!closed)
+        {
+            ToggleClosed();
+        }
+        
         Vector3[] anchors = new Vector3[TotalSegments];
 
         for (int i = 0; i < TotalSegments; i++)
@@ -116,8 +121,50 @@ public class Path
         {
             points[i * 3] = anchors[i];
         }
+        
+        for (int i = 0; i < TotalPoints; i += 3)
+        {
+            AutoSetAnchorControlPoints(i);
+        }
     }
 
+    private void AutoSetAnchorControlPoints(int anchorIndex)
+    {
+        Vector3 anchorPosition = points[anchorIndex];
+        Vector3 direction = Vector3.zero;
+        
+        float[] distanceToAdjacentAnchors = new float[2];
+
+        if (anchorIndex - 3 >= 0 || closed)
+        {
+            Vector3 offset = points[LoopIndex(anchorIndex - 3)] - anchorPosition;
+            
+            direction += offset.normalized;
+            
+            distanceToAdjacentAnchors[0] = offset.magnitude;
+        }
+        if (anchorIndex + 3 < TotalPoints || closed)
+        {
+            Vector3 offset = points[LoopIndex(anchorIndex + 3)] - anchorPosition;
+            
+            direction -= offset.normalized;
+            
+            distanceToAdjacentAnchors[1] = -offset.magnitude;
+        }
+
+        direction.Normalize();
+
+        for (int i = 0; i < 2; i++)
+        {
+            int controlIndex = anchorIndex + i * 2 - 1;
+            
+            if (controlIndex >= 0 && controlIndex < points.Count || closed)
+            {
+                points[LoopIndex(controlIndex)] = anchorPosition + distanceToAdjacentAnchors[i] * .5f * direction;
+            }
+        }
+    }
+    
     public void ToggleClosed()
     {
         closed = !closed;
