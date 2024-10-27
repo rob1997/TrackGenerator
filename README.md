@@ -6,7 +6,7 @@ A Vornoi Diagram Generator on Unity using C# Job System (DOTS).
 
 Unity Version: `2022.3.44f1`
 
-![drawing.gif](docs/drawing.gif)
+![drawing.gif](docs/diagram.png) ![drawing.gif](docs/drawing.gif)
 
 ## Performance
 
