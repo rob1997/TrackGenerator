@@ -10,7 +10,7 @@ Unity Version: `2022.3.44f1`
 #### 1. Install Dependencies
 Install dependency package `Burst` and `Collections` Packages from the Package Manager.
 #### 2. Import `Voronoi.unitypackage` in your project
-Download and import `Voronoi.unitypackage` into your project found in release [here](https://github.com/rob1997/Voronoi/releases/download/1.0.0/Voronoi.unitypackage).
+Download and import `Voronoi.unitypackage` into your project found [here](https://github.com/rob1997/Voronoi/releases/).
 #### 3. Usage
 - Create a serialized `VoronoiPlane` object in your MonoBehaviour script and Generate it.
 ```csharp
