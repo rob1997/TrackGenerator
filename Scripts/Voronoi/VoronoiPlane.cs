@@ -116,7 +116,7 @@ namespace Voronoi
             centers.Dispose();
             
 #if UNITY_EDITOR
-            if (!_drawing)
+            if (!_drawing && Drawer.Instance)
             {
                 Drawer.Instance.OnDraw += Draw;
 
