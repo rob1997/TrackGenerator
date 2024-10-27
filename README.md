@@ -6,6 +6,16 @@ A Vornoi Diagram Generator on Unity using C# Job System (DOTS).
 
 Unity Version: `2022.3.44f1`
 
+![drawing.gif](docs/drawing.gif)
+
+## Performance
+
+| Diagram Size | Performance in ms |
+|--------------|-------------------|
+| 5x5          | 0.4 - 0.5         |
+| 25x25        | 98 - 100          |
+| 50x50        | 1725 - 1800       |
+
 ## How to use
 #### 1. Install Dependencies
 Install dependency package `Burst` and `Collections` Packages from the Package Manager.
@@ -51,3 +61,11 @@ Download and import `Voronoi.unitypackage` into your project found [here](https:
 ``` 
 - Each segment contains the start and end points of the segment as `Segment.Start` and `Segment.End` ordered clockwise.
 - You can also visualize the Voronoi Diagram by either adding a `Drawer` instance in your scene and enabling `VoronoiPlane.drawGizmos` in the inspector or by calling `VoronoiPlane.Draw()` in `OnDrawGizmos`.
+
+---
+
+**⚠️Caution⚠️**
+
+As you go higher up in diagram size significantly (> 2500 cells | 50x50) you'll start to get a specific exception `Next segment not unique` more and more frequently which happens due to floating point precision. In cases where you need a significantly large diagram perhaps consider more than one adjacent diagrams or consider refactoring the source code to use `double` and `double3` instead of `float` and `float3`.
+
+---
