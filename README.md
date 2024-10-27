@@ -1,5 +1,8 @@
 # Voronoi
-A Vornoi Diagram Generator on Unity using C# Job System (DOTS)
+[![Made with Unity](https://img.shields.io/badge/Made%20with-Unity-57b9d3.svg?style=flat&logo=unity)](https://unity3d.com)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+A Vornoi Diagram Generator on Unity using C# Job System (DOTS).
 
 Unity Version: `2022.3.44f1`
 
@@ -7,7 +10,7 @@ Unity Version: `2022.3.44f1`
 #### 1. Install Dependencies
 Install dependency package `Burst` and `Collections` Packages from the Package Manager.
 #### 2. Import `Voronoi.unitypackage` in your project
-Download and import `Voronoi.unitypackage` into your project.
+Download and import `Voronoi.unitypackage` into your project found in release [here](https://github.com/rob1997/Voronoi/releases/download/1.0.0/Voronoi.unitypackage).
 #### 3. Usage
 - Create a serialized `VoronoiPlane` object in your MonoBehaviour script and Generate it.
 ```csharp
