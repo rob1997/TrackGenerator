@@ -1,7 +1,7 @@
 using UnityEngine;
 using Voronoi;
 
-public class Generator : MonoBehaviour
+public class SampleGenerator : MonoBehaviour
 {
     [field: SerializeField] public VoronoiPlane VoronoiPlane { get; private set; }
 
