@@ -20,10 +20,7 @@ namespace Voronoi
         
         public static float3 ProjectAndTranslate(float3 value, float3 forward, float3 up, float3 origin)
         {
-            // math.quaternion.LookRotation isn't consistent with UnityEngine.Quaternion.LookRotation
-            float3 t = Cross(up, forward).Normalize();
-            
-            var rotation = new quaternion(new float3x3(t, Cross(forward, t), forward));
+            var rotation = quaternion.LookRotation(up, forward);
             
             value = RotateFloat3(rotation, value);
             
@@ -50,6 +47,26 @@ namespace Voronoi
             rotatedPoint.y = (num7 + num12) * point.x + (1f - (num4 + num6)) * point.y + (num9 - num10) * point.z;
             rotatedPoint.z = (num8 - num11) * point.x + (num9 + num10) * point.y + (1f - (num4 + num5)) * point.z;
             return rotatedPoint;
+        }
+        
+        public static float SignedAngle(float3 from, float3 to, float3 axis)
+        {
+            float angle = Angle(from, to);
+            
+            float x = from.y * to.z - from.z * to.y;
+            float y = from.z * to.x - from.x * to.z;
+            float z = from.x * to.y - from.y * to.x;
+            
+            float sign = math.sign(axis.x * x + axis.y * y + axis.z * z);
+            
+            return angle * sign;
+        }
+        
+        public static float Angle(float3 from, float3 to)
+        {
+            float num = math.sqrt(math.lengthsq(from) * math.lengthsq(to));
+            
+            return num < 1.0000000036274937E-15 ? 0.0f : math.acos(math.clamp(math.dot(from, to) / num, -1f, 1f)) * 57.29578f;
         }
     }
 }

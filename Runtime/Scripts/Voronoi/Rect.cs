@@ -26,9 +26,9 @@ namespace Voronoi
         public float MaxX => Max.x;
         public float MaxY => Max.y;
 
-        public float3 TopLeft => Min + _up * _height;
+        public float3 TopLeft => Min + _forward * _height;
         
-        public float3 BottomRight => Min + Utils.Cross(_up, _forward) * _width;
+        public float3 BottomRight => Min + Utils.Cross(_forward, _up) * _width;
         
         public Rect(float2 min, float2 max, float3 forward, float3 up)
         {

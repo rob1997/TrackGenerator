@@ -5,8 +5,9 @@ namespace Voronoi
     public struct Segment
     {
         public float3 Start { get; private set; }
+        
         public float3 End { get; private set; }
-
+        
         public float3 Direction => End - Start;
 
         public float3 Center { get; private set; }

@@ -156,6 +156,21 @@ namespace Voronoi
 
         private Segment Next(Segment segment)
         {
+            for (int i = 0; i < Segments.Length; i++)
+            {
+                Segment current = Segments[i];
+                
+                if (segment.End.Equals(current.Start))
+                {
+                    return current;
+                }
+            }
+
+            throw new Exception("Next segment not found");
+        }
+        
+        private Segment NextUnique(Segment segment)
+        {
             int index = - 1;
             
             for (int i = 0; i < Segments.Length; i++)
@@ -166,6 +181,7 @@ namespace Voronoi
                 {
                     if (index != - 1)
                     {
+                        // TODO: this keeps happening sometimes
                         throw new Exception("Next segment not unique");
                     }
                     

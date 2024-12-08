@@ -9,7 +9,7 @@ namespace Voronoi
 {
     [Serializable]
 
-    public class VoronoiPlane
+    public class VoronoiPlane : IDisposable
     {
         [SerializeField] private int planeWidth = 5;
 
@@ -23,11 +23,26 @@ namespace Voronoi
 
         private Rect _boundingRect;
 
+        public VoronoiPlane(int width, int height, float size)
+        {
+            planeWidth = width;
+            
+            planeHeight = height;
+            
+            cellSize = size;
+        }
+        
         public void Generate(Transform transform)
         {
-            Generate(transform.position, transform.forward, transform.up);
+            Vector3 position = transform.position;
+            
+            position += transform.right * (planeWidth * cellSize) / 2f;
+            
+            position -= transform.forward * (planeHeight * cellSize) / 2f;
+            
+            Generate(position, transform.forward, transform.up);
         }
-
+        
         public void Generate(Vector3 origin, Vector3 forward, Vector3 up)
         {
             int arrayLength = planeWidth * planeHeight;
@@ -116,7 +131,7 @@ namespace Voronoi
             centers.Dispose();
             
 #if UNITY_EDITOR
-            if (!_drawing && Drawer.Instance)
+            if (!_drawing)
             {
                 Drawer.Instance.OnDraw += Draw;
 
@@ -156,14 +171,6 @@ namespace Voronoi
 
             if (Cells != null)
             {
-                // Draw centers
-                foreach (Cell cell in Cells)
-                {
-                    Gizmos.color = Color.green;
-
-                    Gizmos.DrawSphere(cell.Center, centerRadius);
-                }
-
                 // Draw bounding box
                 Gizmos.color = Color.white;
 
@@ -177,6 +184,14 @@ namespace Voronoi
 
                 foreach (var cell in Cells)
                 {
+                    Gizmos.color = Color.green;
+
+                    // Draw cell center
+                    Gizmos.DrawSphere(cell.Center, centerRadius);
+                    
+                    Gizmos.color = Color.white;
+                    
+                    // Draw cell sizes/segments
                     foreach (var segment in cell.Segments)
                     {
                         Gizmos.DrawLine(segment.Start, segment.End);
@@ -186,5 +201,10 @@ namespace Voronoi
         }
 
         #endregion
+        
+        public void Dispose()
+        {
+            Drawer.Instance.OnDraw -= Draw;
+        }
     }
 }

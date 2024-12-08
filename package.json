@@ -1,0 +1,21 @@
+{
+  "name": "com.rob1997.track-generator",
+  "version": "1.0.0",
+  "displayName": "Track Generator",
+  "description": "A package that Procedurally Generates Closed Tracks from Voronoi Diagrams using C# Jobs System, Splines and Procedural Mesh Generation.",
+  "unity": "2022.3",
+  "documentationUrl": "https://GitHub.com/rob1997/TrackGenerator",
+  "dependencies": {
+    "com.unity.collections": "2.5.1",
+    "com.unity.splines": "2.6.1"
+  },
+  "keywords": [
+    "track",
+    "procedural",
+    "voronoi"
+  ],
+  "author": {
+    "name": "rob1997",
+    "url": "https://rob1997.github.io/"
+  }
+}

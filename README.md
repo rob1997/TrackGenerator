@@ -1,71 +1,117 @@
-# Voronoi
+# Track Generator
+[![GitHub release](https://img.shields.io/github/v/release/rob1997/TrackGenerator?include_prereleases)](https://github.com/rob1997/TrackGenerator/releases)
 [![Made with Unity](https://img.shields.io/badge/Made%20with-Unity-57b9d3.svg?style=flat&logo=unity)](https://unity3d.com)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![GitHub license](https://img.shields.io/github/license/rob1997/TrackGenerator)](https://opensource.org/licenses/MIT)
 
-A Vornoi Diagram Generator on Unity using C# Job System (DOTS).
+A package that Procedurally Generates Closed Tracks from Voronoi Diagrams using C# Jobs System, Splines and Procedural Mesh Generation.
 
 Unity Version: `2022.3.44f1`
 
-![drawing.gif](docs/diagram.png) ![drawing.gif](docs/drawing.gif)
+![spline_4](./~docs/spline_4.png)
 
 ## Performance
 
-| Diagram Size | Performance in ms |
-|--------------|-------------------|
-| 5x5          | 0.4 - 0.5         |
-| 25x25        | 98 - 100          |
-| 50x50        | 1725 - 1800       |
+| Track Size/Cells | Performance in ms |
+|------------------|-------------------|
+| 10               | 2.5 - 3           |
+| 25               | 8 - 8.7           |
+| 50               | 21 - 23           |
 
-## How to use
-#### 1. Install Dependencies
-Install dependency package `Burst` and `Collections` Packages from the Package Manager.
-#### 2. Import `Voronoi.unitypackage` in your project
-Download and import `Voronoi.unitypackage` into your project found [here](https://github.com/rob1997/Voronoi/releases/).
-#### 3. Usage
-- Create a serialized `VoronoiPlane` object in your MonoBehaviour script and Generate it.
+Complexity = 1
+Smoothness = 500
+
+## Installation
+You can install the package via UPM (Unity Package Manager)
+- Open the Unity Package Manager from `Window > Package Manager` and [Import Package from Git URL](https://docs.unity3d.com/Manual/upm-ui-giturl.html).
+- Input the following URL: https://github.com/rob1997/TrackGenerator.git
+
+## Configuration
+
+Below are properties of Track Generator that you can configure to generate different types of tracks.
+
+| **Name**   | **Type**               | **Description**                                                                                                                                  |
+|------------|------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------|
+| Resolution | `int`                  | Number of triangles that'll be used for mesh generation, the higher the value the smoother the generated mesh.                                   |
+| Width      | `float`                | Width of the generated mesh.                                                                                                                     |
+| Tiling     | `Range[0f, 1f] float`  | The tiling of the generated mesh relative to the distance of the generated Spline. A value of 1 will tile the texture once per unit of distance. |
+| Scale      | `float`                | Scale of the generated track.                                                                                                                    |
+| Complexity | `Rangle[0f, 1f] float` | The lower the complexity the fewer sides/segments the track will have.                                                                           |
+
+There are two types of Track Generators available in the package:
+
+### 1. Random Track Generator
+
+Generates a random track based on size (area).
+
+| **Name** | **Type**               | **Description**                                                                                     |
+|----------|------------------------|-----------------------------------------------------------------------------------------------------|
+| Size     | `int`                  | Number of voronoi cells used to generate a random track. The higher the value the bigger the track. |
+
+### 2. Rect Track Generator
+
+Generates a rectangular track based on size (width, height).
+
+| **Name** | **Type**     | **Description**                                                                              |
+|----------|--------------|----------------------------------------------------------------------------------------------|
+| Size     | `Vector2Int` | Determines the dimensions of the track, corresponding to width (Size.x) and height (Size.Y). |
+
+## Setup
+
+- Attach the `RandomTrackGenerator` or `RectTrackGenerator` `MonoBehaviour` to a `GameObject` in the Scene.  This will automatically add `SplineContainer`, `MeshRenderer` and `MeshFilter` components to the `GameObject`.
+
+
+- Assign a Material of your choice to the `MeshRenderer` component. You can find a default road material in the Materials folder in the package.
+
+## Usage
+
+First declare a serialized implementation of `TrackGenerator`
+
 ```csharp
-    [field: SerializeField] public VoronoiPlane VoronoiPlane { get; private set; }
+    [field: SerializeField] public RandomTrackGenerator TrackGenerator { get; private set; }
+```
 
+or
+
+```csharp
+    [field: SerializeField] public RectTrackGenerator TrackGenerator { get; private set; }
+```
+
+then generate track
+
+```csharp
     private void Update()
     {
-        // Generate Voronoi Diagram on Space Key Press
+        // Generate a Random Track on Space Key Press
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            VoronoiPlane.Generate(transform);
+            TrackGenerator.Generate();
         }
     }
 ```
-- The `VoronoiPlane.Generate()` method takes a `Transform` object as an argument that determines the position and rotation of the diagram, you can also alternatively use `VoronoiDiagram.Generate(Vector3 origin, Vector3 forward, Vector3 up)` where `origin` will be used to position the diagram while `forward` and `up` are used to rotate the diagram.
-- You can also use the `VoronoiPlane` object to get the generated Voronoi Diagram Cells.
-```csharp
-    // Get the Voronoi Diagram data
-    Cell[] cells = VoronoiPlane.Cells;
-```
-- Each cell contains the center point of each cell as `Cell.Center` and an array of segments and vertices for each cell arranged in a **clockwise** order as `Cell.Segments` and `Cell.Vertices`.
-```csharp
-    Cell[] cells = VoronoiPlane.Cells;
-    
-    for (int i = 0; i < cells.Length; i++)
-    {
-        Cell cell = cells[i];
-        
-        // Center point of a Voronoi cell
-        Vector3 center = cell.Center;
-        
-        // Segments of a single Voronoi cell arranged in a clockwise manner
-        Segment[] segments = cell.Segments;
-        
-        // Vertices of a single Voronoi cell arranged in a clockwise manner
-        float3[] vertices = cell.Vertices;
-    }
-``` 
-- Each segment contains the start and end points of the segment as `Segment.Start` and `Segment.End` ordered clockwise.
-- You can also visualize the Voronoi Diagram by either adding a `Drawer` instance in your scene and enabling `VoronoiPlane.drawGizmos` in the inspector or by calling `VoronoiPlane.Draw()` in `OnDrawGizmos`.
+The `TrackGenerator.Generate()` method generates a random track based on the `transform` of the `GameObject`.
+
+You can also alternatively use the Generate Button in the Inspector.
+
+![spline_0](./~docs/spline_0.png)
+
+You can use the Spline Editor tool to edit any generated Track Spline in the Scene View. Once you're done editing the Spline you can press the `Generate Mesh` button to generate a new mesh based on the edited Spline.
+
+![spline_1](./~docs/spline_1.png)
+
+![spline_2](./~docs/spline_2.png)
+
+![spline_3](./~docs/spline_3.png)
+
+You can get the generated Vertices and Spline via `TrackGenerator.Spline` and `TrackGenerator.Vertices`.
+
+## Contributing
+
+If you'd like to contribute to the project, you can fork the repository and create a pull request. You can also create an issue if you find any bugs or have any feature requests.
 
 ---
 
-**⚠️Caution⚠️**
+##### **⚠️Caution⚠️**
 
-As you go higher up in diagram size significantly (> 2500 cells | 50x50) you'll start to get a specific exception `Next segment not unique` more and more frequently which happens due to floating point precision. In cases where you need a significantly large diagram perhaps consider more than one adjacent diagrams or consider refactoring the source code to use `double` and `double3` instead of `float` and `float3`.
+As you go higher up in track size significantly you'll start to get a specific exception `Next segment not unique` more and more frequently which happens due to floating point precision. In cases where you need a significantly large track perhaps consider increasing scale instead. More on this [here](Runtime/Scripts/Voronoi/README.md#caution).
 
 ---
