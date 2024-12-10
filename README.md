@@ -5,6 +5,8 @@
 
 A package that Procedurally Generates Closed Tracks from Voronoi Diagrams using C# Jobs System, Splines and Procedural Mesh Generation.
 
+This package also contains a Voronoi Diagram implementation that can be found [here](./Runtime/Scripts/Voronoi/README.md).
+
 Unity Version: `2022.3.44f1`
 
 ![spline_4](./~docs/spline_4.png)
