@@ -11,11 +11,11 @@ namespace Track
     [RequireComponent(typeof(SplineContainer), typeof(MeshFilter), typeof(MeshRenderer))]
     public abstract class TrackGenerator : MonoBehaviour
     {
-        [SerializeField] private int resolution = 100;
+        [field: SerializeField] public int Resolution { get; private set; } = 10000;
+
+        [field: SerializeField] public float Width { get; private set; } = 3f;
         
-        [SerializeField] private float width = 5f;
-        
-        [SerializeField, Range(0f, 1f)] private float tiling = 1f;
+        [field: SerializeField, Range(0f, 1f)] public float Tiling { get; private set; } = 0.25f;
         
         private SplineContainer _splineContainer;
         
@@ -76,7 +76,7 @@ namespace Track
 
         public void GenerateMesh()
         {
-            int vLength = (resolution + 2) * 2;
+            int vLength = (Resolution + 2) * 2;
             
             NativeArray<float3> vertices = new NativeArray<float3>(vLength, Allocator.TempJob);
             
@@ -96,7 +96,7 @@ namespace Track
                 
                 Spline = spline,
                 
-                Width = width
+                Width = Width
             }.Schedule(vLength, 8).Complete();
 
             new CalculateTrianglesJob()
@@ -120,7 +120,7 @@ namespace Track
             // Tiling
             if (_meshRenderer.sharedMaterial != null)
             {
-                _meshRenderer.sharedMaterial.mainTextureScale = new Vector2(1, tiling * Spline.GetLength());
+                _meshRenderer.sharedMaterial.mainTextureScale = new Vector2(1, Tiling * Spline.GetLength());
             }
             
             _meshFilter.mesh.RecalculateNormals();

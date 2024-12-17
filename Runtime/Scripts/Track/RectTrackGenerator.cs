@@ -4,15 +4,15 @@ namespace Track
 {
     public class RectTrackGenerator : TrackGenerator
     {
-        [SerializeField] private Vector2Int size = new Vector2Int(3, 3);
+        [field: SerializeField] public Vector2Int Size { get; private set; } = new Vector2Int(3, 3);
 
-        [SerializeField] private float scale = 5f;
+        [field: SerializeField] public float Scale { get; private set; } = 5f;
         
-        [SerializeField, Range(0f, 1f)] private float complexity = .5f;
+        [field: SerializeField, Range(0f, 1f)] public float Complexity { get; private set; } = .5f;
         
         protected override Path GetPath()
         {
-            return new RectPath(size.x, size.y, scale, complexity);
+            return new RectPath(Size.x, Size.y, Scale, Complexity);
         }
     }
 }
