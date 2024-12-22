@@ -106,6 +106,10 @@ You can use the Spline Editor tool to edit any generated Track Spline in the Sce
 
 You can get the generated Vertices and Spline via `TrackGenerator.Spline` and `TrackGenerator.Vertices`.
 
+## How it Works
+
+If you would like to know how it works, I've a dev-log entry on it [here](https://rob1997.github.io/devlog/log-2.html)
+
 ## Contributing
 
 If you'd like to contribute to the project, you can fork the repository and create a pull request. You can also create an issue if you find any bugs or have any feature requests.

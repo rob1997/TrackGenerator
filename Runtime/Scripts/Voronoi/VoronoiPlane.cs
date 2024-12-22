@@ -131,7 +131,7 @@ namespace Voronoi
             centers.Dispose();
             
 #if UNITY_EDITOR
-            if (!_drawing)
+            if (!_drawing && Drawer.Instance != null)
             {
                 Drawer.Instance.OnDraw += Draw;
 
@@ -204,7 +204,10 @@ namespace Voronoi
         
         public void Dispose()
         {
-            Drawer.Instance.OnDraw -= Draw;
+            if (_drawing && Drawer.Instance != null)
+            {
+                Drawer.Instance.OnDraw -= Draw;
+            }
         }
     }
 }
