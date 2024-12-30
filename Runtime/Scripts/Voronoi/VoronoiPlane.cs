@@ -204,10 +204,12 @@ namespace Voronoi
         
         public void Dispose()
         {
+#if UNITY_EDITOR
             if (_drawing && Drawer.Instance != null)
             {
                 Drawer.Instance.OnDraw -= Draw;
             }
+#endif
         }
     }
 }
