@@ -11,11 +11,14 @@ namespace Track
     [RequireComponent(typeof(SplineContainer), typeof(MeshFilter), typeof(MeshRenderer))]
     public abstract class TrackGenerator : MonoBehaviour
     {
-        [field: SerializeField] public int Resolution { get; private set; } = 10000;
+        [field: SerializeField, Tooltip("The resolution of the track. The number of segments that'll be used to generate the track mesh.")]
+        public int Resolution { get; private set; } = 10000;
 
-        [field: SerializeField] public float Width { get; private set; } = 3f;
+        [field: SerializeField, Tooltip("The width of the track.")]
+        public float Width { get; private set; } = 3f;
         
-        [field: SerializeField, Range(0f, 1f)] public float Tiling { get; private set; } = 0.25f;
+        [field: SerializeField, Range(0f, 1f), Tooltip("The tiling of the track's texture.")]
+        public float Tiling { get; private set; } = 0.25f;
         
         private SplineContainer _splineContainer;
         
